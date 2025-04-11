@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+ RewriteCond %{HTTPS} off
+ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+ RewriteCond %{HTTP_HOST} !^www\. [NC]
+ RewriteRule (.*) https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^\ ]+)\.php
+RewriteRule ^/?(.*)\.php$ /$1 [L,R=301]
+
+# check to see if the request is for a PHP file:
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^/?(.*)$ /$1.php [L]
+
+ErrorDocument 404 /404.php
+
+Redirect 301 /index /
