@@ -1,0 +1,26 @@
+name: Deploy PHP to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 📂 Deploy to Hostinger
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 141.136.33.141
+          username: u479577426
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 65002
+          script: |
+            cd /home/u479577426/domains/researchproposalwriter.com/public_html
+            git pull origin main
+            echo "✅ Deployed Successfully"
